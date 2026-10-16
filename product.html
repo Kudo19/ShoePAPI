@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShoePAPI | Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight">Shoe<span class="text-orange-500">PAPI</span></a>
+      <nav class="hidden md:flex gap-8 text-sm font-medium">
+        <a href="index.html" class="hover:text-orange-500">Home</a>
+        <a href="shop.html" class="hover:text-orange-500">Shop</a>
+        <a href="product.html" class="text-orange-500">Featured</a>
+        <a href="contact.html" class="hover:text-orange-500">Contact</a>
+      </nav>
+      <a href="cart.html" class="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white text-sm px-4 py-2 hover:bg-orange-500 transition">
+        Cart <span data-cart-count class="hidden bg-orange-500 rounded-full text-xs px-2">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <p class="text-sm text-slate-500"><a href="index.html" class="hover:text-orange-500">Home</a> / <a href="shop.html" class="hover:text-orange-500">Shop</a> / <span id="crumbName">Product</span></p>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-10">
+
+      <!-- Picture (filled in by js/product.js) -->
+      <div class="aspect-square rounded-3xl bg-slate-100 overflow-hidden">
+        <img id="productImage" alt="" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Details -->
+      <div>
+        <span id="productCategory" class="text-xs font-semibold text-orange-600 bg-orange-100 px-3 py-1 rounded-full"></span>
+        <h1 id="productName" class="mt-3 text-2xl md:text-3xl font-extrabold"></h1>
+        <p id="productPrice" class="mt-4 text-3xl font-bold"></p>
+        <p id="productDesc" class="mt-4 text-slate-600"></p>
+
+        <div class="mt-6">
+          <h3 class="font-semibold mb-2">Size (US)</h3>
+          <div class="flex flex-wrap gap-2 text-sm">
+            <button type="button" data-size="7" class="size-btn border rounded-lg px-4 py-2 hover:border-orange-500">38</button>
+            <button type="button" data-size="8" class="size-btn border rounded-lg px-4 py-2 hover:border-orange-500">39</button>
+            <button type="button" data-size="9" class="size-btn border rounded-lg px-4 py-2 hover:border-orange-500">40</button>
+            <button type="button" data-size="10" class="size-btn border rounded-lg px-4 py-2 hover:border-orange-500">41</button>
+            <button type="button" data-size="11" class="size-btn border rounded-lg px-4 py-2 hover:border-orange-500">42</button>
+            <button type="button" data-size="12" class="size-btn border rounded-lg px-4 py-2 text-slate-300 cursor-not-allowed" disabled>12</button>
+          </div>
+          <p id="sizeError" class="hidden text-xs text-red-500 mt-2">Please select a size.</p>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="font-semibold mb-2">Quantity</h3>
+          <div class="inline-flex items-center border rounded-full">
+            <button type="button" id="qtyMinus" class="px-4 py-2 hover:text-orange-500" aria-label="Decrease quantity">−</button>
+            <span id="qtyValue" class="px-3 font-semibold">1</span>
+            <button type="button" id="qtyPlus" class="px-4 py-2 hover:text-orange-500" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <button type="button" id="addToCartBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition">Add to Cart</button>
+        </div>
+
+        <ul class="mt-8 space-y-2 text-sm text-slate-600">
+          <li>✓ Free shipping on orders of ₱1,000 or more</li>
+          <li>✓ 30-day free returns</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Related (filled in by js/product.js) -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold">You may also like</h2>
+      <div id="related" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-300 mt-16">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row justify-between gap-6">
+      <div>
+        <p class="text-xl font-extrabold text-white">Shoe<span class="text-orange-500">PAPI</span></p>
+        <p class="text-sm mt-2 max-w-xs">Quality shoes for every step of your day.</p>
+      </div>
+      <div class="flex gap-8 text-sm">
+        <a href="shop.html" class="hover:text-orange-400">Shop</a>
+        <a href="cart.html" class="hover:text-orange-400">Cart</a>
+        <a href="contact.html" class="hover:text-orange-400">Contact</a>
+      </div>
+    </div>
+    <p class="text-center text-xs text-slate-500 pb-6">&copy; 2026 ShoePAPI. All rights reserved.</p>
+  </footer>
+
+<script>
+const CART_KEY = "shoePAPICart";
+
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function updateCartCount() {
+  const count = getCart().reduce((sum, item) => sum + item.quantity, 0);
+
+  document.querySelectorAll("[data-cart-count]").forEach((element) => {
+    element.textContent = count;
+    element.classList.toggle("hidden", count === 0);
+  });
+}
+
+function addToCart(product) {
+  const cart = getCart();
+  const existing = cart.find(
+    (item) => item.id === product.id && item.size === product.size
+  );
+
+  if (existing) {
+    existing.quantity += product.quantity;
+  } else {
+    cart.push(product);
+  }
+
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartCount();
+  alert("Product added to cart!");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const products = [
+    { id: "p1", name: "Men's Sports Running Shoes", category: "Running", price: 300, image: "Components/Running Shoes.jpeg" },
+    { id: "p2", name: "Men's Lightweight Running Shoes", category: "Running", price: 350, image: "Components/Running shoes 2.jpeg" },
+    { id: "p3", name: "Men's Breathable Running Shoes", category: "Running", price: 330, image: "Components/Running Shoes 3.jpeg" },
+    { id: "p4", name: "Ladies' Korean Flat Slide Sandals", category: "Sandals", price: 430, image: "Components/Sandals 2.jpeg" },
+    { id: "p5", name: "Women's Casual Flat Sandals", category: "Sandals", price: 230, image: "Components/Sandals.jpeg" },
+    { id: "p6", name: "Fashion Outdoor Sandals", category: "Sandals", price: 300, image: "Components/Sandals 3.jpeg" },
+    { id: "p7", name: "Unisex Fashion Sneakers", category: "Sneakers", price: 400, image: "Components/Sneakers 1.jpeg" },
+    { id: "p8", name: "On Running Cloud Tilt Sneakers", category: "Sneakers", price: 450, image: "Components/Sneakers 2.jpeg" },
+    { id: "p9", name: "Purple and Gold Basketball Sneakers", category: "Sneakers", price: 480, image: "Components/Sneakers 3.jpeg" },
+    { id: "p10", name: "Korean Fashion High-Cut Boots", category: "Boots", price: 480, image: "Components/Boots 1.jpeg" },
+    { id: "p11", name: "Women's Martin Boots", category: "Boots", price: 550, image: "Components/Boots 2.jpeg" },
+    { id: "p12", name: "Men's Leather Martin Boots", category: "Boots", price: 450, image: "Components/Screenshot_16-10-2026_135129_www.lazada.com.ph.jpeg" }
+  ];
+
+  const id = new URLSearchParams(location.search).get("id") || "p1";
+  const product = products.find((item) => item.id === id);
+
+  if (!product) {
+    document.getElementById("productName").textContent = "Product not found";
+    return;
+  }
+
+  const money = (price) => "₱" + price.toLocaleString("en-PH");
+
+  document.title = product.name + " | ShoePAPI";
+  document.getElementById("productImage").src = product.image;
+  document.getElementById("productImage").alt = product.name;
+  document.getElementById("productName").textContent = product.name;
+  document.getElementById("productCategory").textContent = product.category;
+  document.getElementById("productPrice").textContent = money(product.price);
+  document.getElementById("productDesc").textContent =
+    `Comfortable ${product.category.toLowerCase()} for everyday style.`;
+  document.getElementById("crumbName").textContent = product.name;
+
+  let size = "";
+  let quantity = 1;
+
+  document.querySelectorAll("[data-size]:not(:disabled)").forEach((button) => {
+    button.addEventListener("click", () => {
+      size = button.dataset.size;
+
+      document.querySelectorAll("[data-size]").forEach((item) => {
+        item.classList.remove("bg-orange-500", "text-white", "border-orange-500");
+      });
+
+      button.classList.add("bg-orange-500", "text-white", "border-orange-500");
+      document.getElementById("sizeError").classList.add("hidden");
+    });
+  });
+
+  document.getElementById("qtyMinus").addEventListener("click", () => {
+    quantity = Math.max(1, quantity - 1);
+    document.getElementById("qtyValue").textContent = quantity;
+  });
+
+  document.getElementById("qtyPlus").addEventListener("click", () => {
+    quantity++;
+    document.getElementById("qtyValue").textContent = quantity;
+  });
+
+  document.getElementById("addToCartBtn").addEventListener("click", () => {
+    if (!size) {
+      document.getElementById("sizeError").classList.remove("hidden");
+      return;
+    }
+
+    addToCart({ ...product, size, quantity });
+  });
+
+  const related = products
+    .filter((item) => item.category === product.category && item.id !== product.id)
+    .slice(0, 4);
+
+  document.getElementById("related").innerHTML = related.map((item) => `
+    <a href="product.html?id=${item.id}" class="rounded-2xl bg-white p-3 shadow-sm hover:shadow-lg transition">
+      <div class="aspect-square overflow-hidden rounded-xl bg-slate-100">
+        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+      </div>
+      <h3 class="mt-3 text-sm font-semibold">${item.name}</h3>
+      <p class="mt-1 text-sm text-slate-500">${item.category}</p>
+      <p class="mt-2 font-bold">${money(item.price)}</p>
+    </a>
+  `).join("");
+
+  updateCartCount();
+});
+</script>
+ <script src="js/cart.js"></script>
+<script src="js/product.js"></script>
+</body>
+</html>

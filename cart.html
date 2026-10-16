@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShoePAPI | Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight">Stride<span class="text-orange-500">Hub</span></a>
+      <nav class="hidden md:flex gap-8 text-sm font-medium">
+        <a href="index.html" class="hover:text-orange-500">Home</a>
+        <a href="shop.html" class="hover:text-orange-500">Shop</a>
+        <a href="product.html" class="hover:text-orange-500">Featured</a>
+        <a href="contact.html" class="hover:text-orange-500">Contact</a>
+      </nav>
+      <a href="cart.html" class="inline-flex items-center gap-2 rounded-full bg-orange-500 text-white text-sm px-4 py-2">
+        Cart <span data-cart-count class="hidden bg-white text-orange-500 rounded-full text-xs px-2">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Your cart</h1>
+
+    <!-- Shown when the cart is empty -->
+    <div id="emptyCart" class="hidden text-center py-20">
+      <p class="text-6xl">🛒</p>
+      <h2 class="mt-4 text-xl font-bold">Your cart is empty</h2>
+      <p class="mt-1 text-slate-500">Looks like you haven't added any shoes yet.</p>
+      <a href="shop.html" class="inline-block mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">Browse the shop</a>
+    </div>
+
+    <div id="cartLayout" class="mt-8 grid lg:grid-cols-3 gap-8">
+
+      <!-- Items (filled in by js/cart.js) -->
+      <div id="cartItems" class="lg:col-span-2 divide-y border rounded-2xl h-fit"></div>
+
+      <!-- Summary -->
+      <aside class="border rounded-2xl p-6 h-fit bg-slate-50">
+        <h2 class="text-lg font-bold">Order summary</h2>
+        <dl class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between"><dt>Subtotal</dt><dd id="subtotal">₱0</dd></div>
+          <div class="flex justify-between"><dt>Shipping</dt><dd id="shipping" class="text-emerald-600">Free</dd></div>
+          <div class="flex justify-between border-t pt-3 text-base font-bold"><dt>Total</dt><dd id="total">₱0</dd></div>
+        </dl>
+        <p class="mt-3 text-xs text-slate-500">Free shipping on orders of ₱1,000 or more.</p>
+        <button class="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition">Checkout</button>
+        <a href="shop.html" class="block text-center text-sm text-orange-500 mt-4 hover:underline">Continue shopping</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-300 mt-16">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row justify-between gap-6">
+      <div>
+        <p class="text-xl font-extrabold text-white">Shoe<span class="text-orange-500">PAPI</span></p>
+        <p class="text-sm mt-2 max-w-xs">Quality shoes for every step of your day.</p>
+      </div>
+      <div class="flex gap-8 text-sm">
+        <a href="shop.html" class="hover:text-orange-400">Shop</a>
+        <a href="cart.html" class="hover:text-orange-400">Cart</a>
+        <a href="contact.html" class="hover:text-orange-400">Contact</a>
+      </div>
+    </div>
+    <p class="text-center text-xs text-slate-500 pb-6">&copy; 2026 StrideHub. All rights reserved.</p>
+  </footer>
+
+
+<script>
+const CART_KEY = "shoePAPICart";
+
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartCount();
+  renderCart();
+}
+
+function money(price) {
+  return "₱" + price.toLocaleString("en-PH");
+}
+
+function updateCartCount() {
+  const count = getCart().reduce((sum, item) => sum + item.quantity, 0);
+
+  document.querySelectorAll("[data-cart-count]").forEach((element) => {
+    element.textContent = count;
+    element.classList.toggle("hidden", count === 0);
+  });
+}
+
+function renderCart() {
+  const cart = getCart();
+  const itemsElement = document.getElementById("cartItems");
+  const empty = document.getElementById("emptyCart");
+  const layout = document.getElementById("cartLayout");
+
+  if (!itemsElement || !empty || !layout) return;
+
+  empty.classList.toggle("hidden", cart.length > 0);
+  layout.classList.toggle("hidden", cart.length === 0);
+
+  itemsElement.innerHTML = cart.map((item, index) => `
+    <div class="flex gap-4 p-4">
+      <img src="${item.image}" alt="${item.name}" class="w-24 h-24 rounded-xl object-cover bg-slate-100">
+      <div class="flex-1 min-w-0">
+        <h3 class="font-semibold">${item.name}</h3>
+        <p class="text-sm text-slate-500">${item.category || ""}</p>
+        <p class="text-sm text-slate-500">Size: ${Number(item.size) + 31}</p>
+        <p class="mt-1 font-bold">${money(item.price)}</p>
+        <div class="mt-3 flex items-center gap-3">
+          <button data-minus="${index}" class="border rounded px-3 py-1">−</button>
+          <span>${item.quantity}</span>
+          <button data-plus="${index}" class="border rounded px-3 py-1">+</button>
+          <button data-remove="${index}" class="text-sm text-red-500 ml-2">Remove</button>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shipping = subtotal === 0 || subtotal >= 1000 ? 0 : 100;
+
+  document.getElementById("subtotal").textContent = money(subtotal);
+  document.getElementById("shipping").textContent =
+    shipping === 0 ? "Free" : money(shipping);
+  document.getElementById("total").textContent = money(subtotal + shipping);
+}
+
+document.addEventListener("click", (event) => {
+  const cart = getCart();
+  const minus = event.target.closest("[data-minus]");
+  const plus = event.target.closest("[data-plus]");
+  const remove = event.target.closest("[data-remove]");
+
+  if (minus) {
+    const index = Number(minus.dataset.minus);
+    cart[index].quantity--;
+
+    if (cart[index].quantity <= 0) cart.splice(index, 1);
+    saveCart(cart);
+  }
+
+  if (plus) {
+    cart[Number(plus.dataset.plus)].quantity++;
+    saveCart(cart);
+  }
+
+  if (remove) {
+    cart.splice(Number(remove.dataset.remove), 1);
+    saveCart(cart);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount();
+  renderCart();
+
+  document.querySelector("#cartLayout aside button")?.addEventListener("click", () => {
+    if (getCart().length === 0) {
+      alert("Your cart is empty.");
+    } else {
+      alert("Checkout is not connected to a payment system yet.");
+    }
+  });
+});
+</script>
+
+
+</body>
+</html>

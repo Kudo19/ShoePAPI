@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShoePAPI | Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+
+    <a href="index.html" class="flex items-center gap-2 text-2xl font-extrabold tracking-tight">
+      <img
+        src="Components/Screenshot 2026-10-16 113457.png"
+        alt="ShoePAPI Logo"
+        class="w-10 h-10 object-contain rounded-full"
+      />
+      <span>Shoe<span class="text-orange-500">PAPI</span></span>
+    </a>
+
+    <nav class="hidden md:flex gap-8 text-sm font-medium">
+      <a href="index.html" class="text-orange-500">Home</a>
+      <a href="shop.html" class="hover:text-orange-500">Shop</a>
+      <a href="product.html" class="hover:text-orange-500">Featured</a>
+      <a href="contact.html" class="hover:text-orange-500">Contact</a>
+    </nav>
+
+    <a href="cart.html" class="relative inline-flex items-center gap-2 rounded-full bg-slate-900 text-white text-sm px-4 py-2 hover:bg-orange-500 transition">
+      Cart <span data-cart-count class="hidden bg-orange-500 rounded-full text-xs px-2">0</span>
+    </a>
+
+  </div>
+</header>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-orange-50 via-white to-slate-100">
+    <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="inline-block bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full">New Season 2026</span>
+        <h1 class="mt-4 text-4xl md:text-6xl font-extrabold leading-tight">Step into <span class="text-orange-500">comfort</span> and style.</h1>
+        <p class="mt-4 text-slate-600 max-w-md">Sneakers, runners and everyday classics. Free shipping on orders over ₱1,000 and 30-day easy returns.</p>
+        <div class="mt-8 flex gap-3">
+          <a href="shop.html" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">Shop Now</a>
+          <a href="product.html" class="border border-slate-300 hover:border-orange-500 hover:text-orange-500 font-semibold px-6 py-3 rounded-full transition">View Featured</a>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <div class="w-full max-w-md aspect-square rounded-full overflow-hidden bg-orange-200/60">
+          <img
+          src="Components/logo.jpg"
+          alt="Men's casual color-block sneakers"
+          class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-2xl md:text-3xl font-bold">Shop by category</h2>
+    <div class="mt-8 grid sm:grid-cols-3 gap-6">
+      <a href="shop.html?category=Running" class="group rounded-2xl bg-slate-900 text-white p-8 hover:-translate-y-1 transition">
+        <p class="text-sm text-orange-400">Move fast</p>
+        <h3 class="text-2xl font-bold mt-1">Running</h3>
+        <p class="mt-2 text-slate-300 text-sm">Lightweight, cushioned, built for miles.</p>
+        <span class="inline-block mt-6 text-sm group-hover:translate-x-1 transition">Explore &rarr;</span>
+      </a>
+      <a href="shop.html?category=Sneakers" class="group rounded-2xl bg-orange-500 text-white p-8 hover:-translate-y-1 transition">
+        <p class="text-sm text-orange-100">Everyday</p>
+        <h3 class="text-2xl font-bold mt-1">Sneakers</h3>
+        <p class="mt-2 text-orange-50 text-sm">Clean looks that go with everything.</p>
+        <span class="inline-block mt-6 text-sm group-hover:translate-x-1 transition">Explore &rarr;</span>
+      </a>
+      <a href="shop.html?category=Boots" class="group rounded-2xl bg-slate-100 p-8 hover:-translate-y-1 transition">
+        <p class="text-sm text-orange-500">Tough</p>
+        <h3 class="text-2xl font-bold mt-1">Boots</h3>
+        <p class="mt-2 text-slate-600 text-sm">Durable and weatherproof for any trail.</p>
+        <span class="inline-block mt-6 text-sm group-hover:translate-x-1 transition">Explore &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Best sellers -->
+  <section class="max-w-6xl mx-auto px-4 pb-16">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl md:text-3xl font-bold">Best sellers</h2>
+      <div class="flex gap-2">
+        <button type="button" id="carouselPrev" aria-label="Previous" class="w-10 h-10 rounded-full border border-slate-300 hover:border-orange-500 hover:text-orange-500 transition">‹</button>
+        <button type="button" id="carouselNext" aria-label="Next" class="w-10 h-10 rounded-full border border-slate-300 hover:border-orange-500 hover:text-orange-500 transition">›</button>
+      </div>
+    </div>
+
+    <!-- Best sellers carousel -->
+    
+
+<div class="relative">
+  <div
+    id="carousel"
+    class="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth py-2 pb-4"
+    tabindex="0"
+    aria-label="Best-selling shoes"
+  >
+    <!-- Product 1 -->
+    <a href="product.html?id=p1"
+       class="group w-[75%] shrink-0 snap-start rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-lg sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
+      <div class="aspect-square overflow-hidden rounded-xl bg-slate-100">
+        <img src="Components/Running Shoes.jpeg" alt="Running shoes"
+             class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+             loading="lazy" />
+      </div>
+      <h3 class="mt-3 line-clamp-2 font-semibold">Men's Sports Running Shoes</h3>
+      <p class="mt-1 text-sm text-slate-500">Running Shoes</p>
+      <p class="mt-2 font-bold">₱300</p>
+      <span class="mt-3 inline-block text-sm font-semibold text-orange-500">View Product &rarr;</span>
+    </a>
+
+    <!-- Product 2 -->
+    <a href="product.html?id=p10"
+       class="group w-[75%] shrink-0 snap-start rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-lg sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
+      <div class="aspect-square overflow-hidden rounded-xl bg-slate-100">
+        <img src="Components/Boots 1.jpeg" alt="High-cut fashion boots"
+             class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+             loading="lazy" />
+      </div>
+      <h3 class="mt-3 line-clamp-2 font-semibold">Korean Fashion High-Cut Boots</h3>
+      <p class="mt-1 text-sm text-slate-500">Boots</p>
+      <p class="mt-2 font-bold">₱480</p>
+      <span class="mt-3 inline-block text-sm font-semibold text-orange-500">View Product &rarr;</span>
+    </a>
+
+    <!-- Product 3 -->
+    <a href="product.html?id=p9"
+       class="group w-[75%] shrink-0 snap-start rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-lg sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
+      <div class="aspect-square overflow-hidden rounded-xl bg-slate-100">
+        <img src="Components/Sneakers 3.jpeg" alt="Purple and gold basketball sneakers"
+             class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+             loading="lazy" />
+      </div>
+      <h3 class="mt-3 line-clamp-2 font-semibold">Purple and Gold Basketball Sneakers</h3>
+      <p class="mt-1 text-sm text-slate-500">Sneakers</p>
+      <p class="mt-2 font-bold">₱480</p>
+      <span class="mt-3 inline-block text-sm font-semibold text-orange-500">View Product &rarr;</span>
+    </a>
+
+    <!-- Product 4 -->
+    <a href="product.html?id=p4"
+       class="group w-[75%] shrink-0 snap-start rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-lg sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
+      <div class="aspect-square overflow-hidden rounded-xl bg-slate-100">
+        <img src="Components/Sandals 2.jpeg" alt="Ladies flat slide sandals"
+             class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+             loading="lazy" />
+      </div>
+      <h3 class="mt-3 line-clamp-2 font-semibold">Ladies' Korean Flat Slide Sandals</h3>
+      <p class="mt-1 text-sm text-slate-500">Sandals</p>
+      <p class="mt-2 font-bold">₱430</p>
+      <span class="mt-3 inline-block text-sm font-semibold text-orange-500">View Product &rarr;</span>
+    </a>
+  </div>
+
+  <!-- Carousel Buttons -->
+  <button
+    id="carouselPrev"
+    type="button"
+    aria-label="Previous shoes"
+    class="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-md hover:bg-orange-500 hover:text-white"
+  >
+    &#10094;
+  </button>
+
+  <button
+    id="carouselNext"
+    type="button"
+    aria-label="Next shoes"
+    class="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-md hover:bg-orange-500 hover:text-white"
+  >
+    &#10095;
+  </button>
+</div>
+
+<script>
+  const carousel = document.getElementById("carousel");
+  const prevBtn = document.getElementById("carouselPrev");
+  const nextBtn = document.getElementById("carouselNext");
+
+  function moveCarousel(direction) {
+    const card = carousel.querySelector("a");
+    const gap = parseFloat(getComputedStyle(carousel).columnGap) || 0;
+    const step = card.offsetWidth + gap;
+
+    if (direction === "next") {
+      if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 5) {
+        carousel.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        carousel.scrollBy({ left: step, behavior: "smooth" });
+      }
+    } else {
+      if (carousel.scrollLeft <= 5) {
+        carousel.scrollTo({
+          left: carousel.scrollWidth,
+          behavior: "smooth"
+        });
+      } else {
+        carousel.scrollBy({ left: -step, behavior: "smooth" });
+      }
+    }
+  }
+
+  nextBtn.addEventListener("click", () => moveCarousel("next"));
+  prevBtn.addEventListener("click", () => moveCarousel("prev"));
+
+  let autoSlide = setInterval(() => moveCarousel("next"), 4000);
+
+  carousel.addEventListener("mouseenter", () => clearInterval(autoSlide));
+  carousel.addEventListener("mouseleave", () => {
+    clearInterval(autoSlide);
+    autoSlide = setInterval(() => moveCarousel("next"), 4000);
+  });
+</script>
+
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300">
+    <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row justify-between gap-6">
+      <div>
+        <p class="text-xl font-extrabold text-white">Shoe<span class="text-orange-500">PAPI</span></p>
+        <p class="text-sm mt-2 max-w-xs">Quality shoes for every step of your day.</p>
+      </div>
+      <div class="flex gap-8 text-sm">
+        <a href="shop.html" class="hover:text-orange-400">Shop</a>
+        <a href="cart.html" class="hover:text-orange-400">Cart</a>
+        <a href="contact.html" class="hover:text-orange-400">Contact</a>
+      </div>
+    </div>
+    <p class="text-center text-xs text-slate-500 pb-6">&copy; 2026 ShoePAPI. All rights reserved.</p>
+  </footer>
+
+
+ 
+</body>
+</html>
