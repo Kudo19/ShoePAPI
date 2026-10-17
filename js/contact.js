@@ -12,6 +12,27 @@ function updateCartCount() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  const faqToggles = document.querySelectorAll("[data-faq-toggle]");
+
+  faqToggles.forEach((toggle) => {
+    toggle.addEventListener("click", function () {
+      const answer = document.getElementById(toggle.getAttribute("aria-controls"));
+      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+
+      faqToggles.forEach((otherToggle) => {
+        const otherAnswer = document.getElementById(
+          otherToggle.getAttribute("aria-controls")
+        );
+        const isOtherToggle = otherToggle === toggle;
+        const shouldExpand = isOtherToggle && !isExpanded;
+
+        otherToggle.setAttribute("aria-expanded", String(shouldExpand));
+        otherAnswer.classList.toggle("hidden", !shouldExpand);
+        otherToggle.querySelector(".faq-icon").textContent = shouldExpand ? "−" : "+";
+      });
+    });
+  });
+
   const contactForm = document.getElementById("contactForm");
 
   const nameInput = document.getElementById("name");
