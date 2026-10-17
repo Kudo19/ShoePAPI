@@ -39,7 +39,8 @@ function renderCart() {
   layout.classList.toggle("hidden", cart.length === 0);
 
   itemsElement.innerHTML = cart.map((item, index) => `
-    <div class="flex gap-4 p-4">
+    <div class="flex items-start gap-4 p-4">
+      <input data-select-item="${index}" type="checkbox" class="mt-1 accent-orange-500" aria-label="Select ${item.name}" ${item.selected !== false ? "checked" : ""}>
       <img src="${item.image}" alt="${item.name}" class="w-24 h-24 rounded-xl object-cover bg-slate-100">
       <div class="flex-1 min-w-0">
         <h3 class="font-semibold">${item.name}</h3>
@@ -56,8 +57,16 @@ function renderCart() {
     </div>
   `).join("");
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const selectedItems = cart.filter((item) => item.selected !== false);
+  const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = subtotal === 0 || subtotal >= 1000 ? 0 : 100;
+  const selectAll = document.getElementById("selectAllCartItems");
+  const checkoutButton = document.getElementById("checkoutButton");
+
+  selectAll.checked = selectedItems.length === cart.length;
+  selectAll.indeterminate = selectedItems.length > 0 && selectedItems.length < cart.length;
+  checkoutButton.textContent = `Checkout selected (${selectedItems.length})`;
+  checkoutButton.disabled = selectedItems.length === 0;
 
   document.getElementById("subtotal").textContent = money(subtotal);
   document.getElementById("shipping").textContent =
@@ -90,15 +99,32 @@ document.addEventListener("click", (event) => {
   }
 });
 
+document.addEventListener("change", (event) => {
+  const selectItem = event.target.closest("[data-select-item]");
+
+  if (!selectItem) return;
+
+  const cart = getCart();
+  cart[Number(selectItem.dataset.selectItem)].selected = selectItem.checked;
+  saveCart(cart);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
 
-  document.querySelector("#cartLayout aside button")?.addEventListener("click", () => {
-    if (getCart().length === 0) {
-      alert("Your cart is empty.");
+  document.getElementById("selectAllCartItems")?.addEventListener("change", (event) => {
+    const cart = getCart().map((item) => ({ ...item, selected: event.target.checked }));
+    saveCart(cart);
+  });
+
+  document.getElementById("checkoutButton")?.addEventListener("click", () => {
+    const selectedItems = getCart().filter((item) => item.selected !== false);
+
+    if (selectedItems.length === 0) {
+      alert("Select at least one item to checkout.");
     } else {
-      alert("Checkout is not connected to a payment system yet.");
+      alert("Checkout for selected items is not connected to a payment system yet.");
     }
   });
 });
