@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let isValid = true;
 
-    // NAME VALIDATION
+    
     if (name === "") {
       nameError.textContent = "Name is required.";
       isValid = false;
