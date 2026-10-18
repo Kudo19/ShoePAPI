@@ -12,12 +12,10 @@
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 py-3 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
   
-      <!-- Logo -->
       <a href="index.html" class="text-2xl font-extrabold tracking-tight self-center md:self-auto">
         Shoe<span class="text-orange-500">PAPI</span>
       </a>
   
-      <!-- Navigation: same links, centered on mobile -->
       <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium order-2 md:order-none">
         <a href="index.html" class="hover:text-orange-500">Home</a>
         <a href="shop.html" class="hover:text-orange-500">Shop</a>
@@ -25,7 +23,6 @@
         <a href="contact.html" class="hover:text-orange-500">Contact</a>
       </nav>
   
-      <!-- Search: same IDs for your existing JavaScript -->
       <div class="relative w-full md:w-64 lg:w-72 order-3 md:order-none">
         <form id="searchForm" class="relative">
           <input
@@ -54,7 +51,6 @@
           </svg>
         </form>
   
-        <!-- Suggestions -->
         <div
           id="searchSuggestions"
           class="absolute left-0 right-0 top-full mt-2 hidden max-h-80 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl z-[60]"
@@ -67,7 +63,7 @@
   </header>
   
 
-  <!-- Hero -->
+
   <section class="bg-gradient-to-br from-orange-50 via-white to-slate-100">
     <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
       <div>
@@ -90,7 +86,6 @@
     </div>
   </section>
 
-  <!-- Categories -->
   <section class="max-w-6xl mx-auto px-4 py-16">
     <h2 class="text-2xl md:text-3xl font-bold">Shop by category</h2>
     <div class="mt-8 grid sm:grid-cols-3 gap-6">
@@ -115,18 +110,15 @@
     </div>
   </section>
 
-  <!-- Best sellers -->
   
 <section class="max-w-6xl mx-auto px-4 pb-16">
 
-  <!-- Section Heading -->
   <div class="flex items-end justify-between">
     <h2 class="text-2xl md:text-3xl font-bold">
       Best sellers
     </h2>
   </div>
 
-  <!-- Best-seller carousel -->
   <div class="relative mt-8">
     <div
       id="carousel"
@@ -314,7 +306,7 @@
 <script>
   (() => {
     const carousel = document.getElementById("carousel");
-    const previousButton = document.getElementById("carouselPrevious");
+    const previousButton = document.getElementById("carouselPrevious");    
     const nextButton = document.getElementById("carouselNext");
     const dotsContainer = document.getElementById("carouselDots");
 

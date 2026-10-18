@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const productSearch = document.getElementById("productSearch");
   const searchSuggestions = document.getElementById("searchSuggestions");
 
-  // Check if the required HTML elements exist.
   if (!searchForm || !productSearch || !searchSuggestions) {
     console.error(
       "Search elements not found. Check searchForm, productSearch, and searchSuggestions IDs."
@@ -102,13 +101,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const money = (price) =>
     "₱" + price.toLocaleString("en-PH");
 
-  // Navigate to the selected product on the Featured page.
+  
   function openProduct(product) {
     window.location.href =
       `product.html?id=${encodeURIComponent(product.id)}`;
   }
 
-  // Display live search suggestions with skeleton loading.
+  
   function renderSuggestions(query) {
     const searchTerm = query.trim().toLowerCase();
 
@@ -123,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchSuggestions.classList.remove("hidden");
     productSearch.setAttribute("aria-expanded", "true");
 
-    // Show three animated skeleton placeholders.
+    
     searchSuggestions.innerHTML = Array.from(
       { length: 3 },
       () => `
@@ -140,15 +139,15 @@ document.addEventListener("DOMContentLoaded", () => {
       `
     ).join("");
 
-    // Find products matching the name or category.
+    
     const matches = products.filter((product) =>
       product.name.toLowerCase().includes(searchTerm) ||
       product.category.toLowerCase().includes(searchTerm)
     );
 
-    // Display the matching products after the skeleton delay.
+    
     setTimeout(() => {
-      // Ignore outdated results if the search has changed.
+      
       if (
         productSearch.value.trim().toLowerCase() !== searchTerm
       ) {
@@ -176,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "flex w-full items-center gap-3 p-3 text-left transition hover:bg-orange-50";
         suggestion.setAttribute("role", "option");
 
-        // Product image.
+       
         const image = document.createElement("img");
 
         image.src = product.image;
@@ -185,13 +184,13 @@ document.addEventListener("DOMContentLoaded", () => {
         image.className =
           "h-14 w-14 shrink-0 rounded-lg bg-slate-100 object-cover";
 
-        // Hide the image if its path is incorrect.
+       
         image.addEventListener("error", () => {
           image.classList.add("hidden");
           console.warn("Product image not found:", product.image);
         });
 
-        // Product name and category.
+        
         const details = document.createElement("div");
         details.className = "min-w-0 flex-1";
 
@@ -206,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         details.append(name, category);
 
-        // Product price.
+        
         const price = document.createElement("span");
         price.className =
           "shrink-0 text-sm font-bold text-orange-500";
@@ -214,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         suggestion.append(image, details, price);
 
-        // Clicking a suggestion opens the correct product.
+      
         suggestion.addEventListener("click", () => {
           openProduct(product);
         });
@@ -224,12 +223,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 350);
   }
 
-  // Update suggestions whenever the user types.
+  
   productSearch.addEventListener("input", () => {
     renderSuggestions(productSearch.value);
   });
 
-  // Submit the search when the user presses Enter.
+  
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -249,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Close suggestions when clicking outside the search area.
+  
   document.addEventListener("click", (event) => {
     if (
       !searchForm.contains(event.target) &&
@@ -260,7 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Close suggestions when pressing Escape.
   productSearch.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       searchSuggestions.classList.add("hidden");

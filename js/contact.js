@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageError = document.getElementById("msgError");
   const formSuccess = document.getElementById("formSuccess");
 
-  // Clear an error when the user edits the corresponding field.
+
   function clearError(input, errorElement) {
     input.addEventListener("input", function () {
       errorElement.textContent = "";
@@ -67,13 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
   contactForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    // Read and clean the input values.
+   
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const topic = topicInput.value;
     const message = messageInput.value.trim();
 
-    // Clear previous validation messages.
+   
     nameError.textContent = "";
     emailError.textContent = "";
     topicError.textContent = "";
@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // EMAIL VALIDATION
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (email === "") {
@@ -105,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // TOPIC VALIDATION
+
     const allowedTopics = [
       "Order status",
       "Sizing help",
@@ -118,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // MESSAGE VALIDATION
+
     if (message === "") {
       messageError.textContent = "Message is required.";
       isValid = false;
@@ -132,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // Stop submission if validation fails.
     if (!isValid) {
       const firstInvalidField = [
         [nameInput, nameError],
@@ -148,11 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // All fields passed validation.
     formSuccess.textContent =
       `Thank you, ${name}! Your message passed validation.`;
 
-    // Reset the form after successful validation.
     contactForm.reset();
   });
 });
